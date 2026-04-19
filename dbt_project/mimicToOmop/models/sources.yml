@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: mimic
+    description: Tablas crudas de MIMIC-IV cargadas en Iceberg (schema mimic).
+    database: iceberg
+    schema: mimic
+    tables:
+      - name: patients
+        description: Información demográfica de pacientes.
+        columns:
+          - name: subject_id
+            description: Identificador único del paciente.
+          - name: gender
+          - name: anchor_age
+          - name: anchor_year
+          - name: anchor_year_group
+          - name: dod
+
