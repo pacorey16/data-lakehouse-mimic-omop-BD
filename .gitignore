@@ -207,7 +207,10 @@ marimo/_lsp/
 __marimo__/
 
 
-# Datos locales 
+# JARs de Hadoop/AWS (demasiado grandes para GitHub, ver docker/README.md)
+docker/trino/plugin/**/*.jar
+
+# Datos locales
 /datos_simulados/*.csv
 /datos_simulados/*.parquet
 /minio_data/
