@@ -7,6 +7,7 @@ networks:
 volumes:
   pg-data:
   minio-data:
+  airflow-logs:
 
 services:
   # =======================================================
@@ -24,6 +25,11 @@ services:
       POSTGRES_HOST_AUTH_METHOD: md5
     ports:
       - "5435:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - pg-data:/var/lib/postgresql/data
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -129,5 +135,34 @@ services:
     depends_on:
       - postgres
       - minio
+    networks:
+      - trabajobd_network
+
+  # =======================================================
+  # Airflow 
+  # =======================================================
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    container_name: airflow
+    hostname: airflow
+    user: "0:0"
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/airflow_db
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY}
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - airflow-logs:/opt/airflow/logs
+      - ./data:/opt/airflow/data
+    entrypoint: /bin/bash
+    command: /init-airflow.sh
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8083:8080"
     networks:
       - trabajobd_network

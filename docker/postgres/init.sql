@@ -3,3 +3,4 @@
 -- Crear base de datos de productos para la demo
 CREATE DATABASE productos_db;
 CREATE DATABASE metastore_db;
+CREATE DATABASE airflow_db;
