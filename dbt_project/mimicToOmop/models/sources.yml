@@ -17,3 +17,33 @@ sources:
           - name: anchor_year_group
           - name: dod
 
+      - name: admissions
+        description: Ingresos hospitalarios.
+        columns:
+          - name: subject_id
+          - name: hadm_id
+            description: Identificador único del ingreso.
+          - name: admittime
+          - name: dischtime
+          - name: deathtime
+          - name: admission_type
+          - name: admit_provider_id
+          - name: admission_location
+          - name: discharge_location
+          - name: insurance
+          - name: language
+          - name: marital_status
+          - name: race
+          - name: edregtime
+          - name: edouttime
+          - name: hospital_expire_flag
+
+      - name: diagnoses_icd
+        description: Diagnósticos codificados con ICD-9/ICD-10.
+        columns:
+          - name: subject_id
+          - name: hadm_id
+          - name: seq_num
+          - name: icd_code
+          - name: icd_version
+
