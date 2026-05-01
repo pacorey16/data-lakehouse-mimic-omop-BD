@@ -1,0 +1,2 @@
+subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
+10002930,23720373,2199-02-17 21:45:00,2199-02-19 13:38:00,,EU OBSERVATION,P59HPG,EMERGENCY ROOM,,Medicare,ENGLISH,SINGLE,BLACK/AFRICAN AMERICAN,2199-02-17 14:32:00,2199-02-19 13:38:00,0

@@ -1,0 +1,2 @@
+subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
+10020740,23143086,2151-01-15 15:25:00,2151-01-16 02:38:00,,EU OBSERVATION,P607HY,EMERGENCY ROOM,,Other,ENGLISH,SINGLE,WHITE,2151-01-15 11:47:00,2151-01-16 02:38:00,0

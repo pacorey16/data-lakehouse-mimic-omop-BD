@@ -1,0 +1,3 @@
+subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
+10021938,23112364,2181-10-13 01:48:00,2181-10-14 17:40:00,,EW EMER.,P3529J,EMERGENCY ROOM,HOME,Medicare,ENGLISH,SINGLE,WHITE,2181-10-12 20:17:00,2181-10-13 02:52:00,0
+10021938,27154822,2181-10-25 10:44:00,2181-10-27 15:30:00,,EW EMER.,P99BGS,EMERGENCY ROOM,HOME,Medicare,ENGLISH,SINGLE,WHITE,2181-10-25 09:23:00,2181-10-25 11:35:00,0

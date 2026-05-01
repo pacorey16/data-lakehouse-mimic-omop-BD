@@ -1,0 +1,2 @@
+subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
+10026354,24547356,2119-10-26 07:11:00,2119-11-06 12:30:00,,URGENT,P77BSD,TRANSFER FROM HOSPITAL,SKILLED NURSING FACILITY,Other,?,,WHITE,2119-10-26 06:00:00,2119-10-26 06:37:00,0
