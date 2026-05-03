@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: condition_ocurrence
+    description: Tabla OMOP condition_occurrence generada desde MIMIC-IV diagnoses_icd.
+    columns:
+      - name: condition_occurrence_id
+        description: Clave surrogate única por diagnóstico.
+        tests:
+          - unique
+          - not_null
+
+      - name: person_id
+        description: Identificador del paciente (subject_id de MIMIC).
+        tests:
+          - not_null
+
+      - name: condition_concept_id
+        description: Concepto estándar SNOMED mapeado desde ICD.
+        tests:
+          - not_null
+
+      - name: condition_start_date
+        description: Fecha de inicio del diagnóstico (admittime).
+        tests:
+          - not_null
+
+      - name: condition_end_date
+        description: Fecha de fin del diagnóstico (dischtime).
+
+      - name: condition_type_concept_id
+        description: Tipo de condición. Siempre 32817 (EHR).
+        tests:
+          - not_null
+          - accepted_values:
+              values: [32817]
+
+      - name: condition_source_value
+        description: Código ICD original de MIMIC.
+        tests:
+          - not_null
+
+      - name: condition_source_concept_id
+        description: Concepto ICD en vocabulario OMOP.
+        tests:
+          - not_null
+
+      - name: visit_occurrence_id
+        description: Identificador del ingreso (hadm_id de MIMIC).
+        tests:
+          - not_null
