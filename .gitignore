@@ -216,6 +216,9 @@ docker/trino/plugin/**/*.jar
 /minio_data/
 /data/
 
+# Lotes generados para simulación
+docker/data/lotes_landing/
+
 # Variables de entorno y contraseñas
 .env
 profiles.yml
