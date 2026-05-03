@@ -1,10 +1,19 @@
 version: 2
 
 sources:
-  - name: mimic
-    description: Tablas crudas de MIMIC-IV cargadas en Iceberg (schema mimic).
+
+  - name: vocabulary
     database: iceberg
-    schema: mimic
+    schema: vocabulary
+    tables:
+      - name: concept
+        description: Tabla de conceptos del vocabulario OMOP.
+      - name: concept_relationship
+        description: Tabla de relaciones entre conceptos del vocabulario OMOP.
+  - name: mimic
+    description: Tablas crudas de MIMIC-IV cargadas en Iceberg (schema mimic-bronze).
+    database: iceberg
+    schema: mimic-bronze
     tables:
       - name: patients
         description: Información demográfica de pacientes.
