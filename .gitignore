@@ -219,3 +219,12 @@ docker/trino/plugin/**/*.jar
 # Variables de entorno y contraseñas
 .env
 profiles.yml
+
+# Ignorar datos CSV de Trino
+docker/data/
+
+/docker/trino/conf/catalog/postgres.properties
+
+docker/trino/conf/catalog/hive.properties
+docker/trino/conf/catalog/iceberg.properties
+docker/trino/conf/core-site.xml

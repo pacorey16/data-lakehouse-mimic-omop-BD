@@ -96,7 +96,9 @@ services:
       /bin/sh -c "
       sleep 5;
       mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
-      mc mb --ignore-existing local/datalake;
+      mc mb --ignore-existing local/landing-zone;
+      mc mb --ignore-existing local/mimic-bronze;
+      mc mb --ignore-existing local/omop-silver;
       exit 0;
       "
     environment:
