@@ -1,15 +1,17 @@
 # Partimos de la imagen base de Airflow
-FROM apache/airflow:2.9.3-python3.9
+FROM apache/airflow:2.9.3-python3.11
 
-# Usamos el usuario airflow para instalar providers
+# Usamos el usuario airflow para instalar providers y dbt
 USER airflow
 
-# Instalamos los providers necesarios para PostgreSQL, Kafka y HDFS
-# Pin apache-airflow to 2.9.3 to prevent upgrade to 3.x
+# Instalamos los providers y las librerías de dbt con versiones compatibles
 RUN pip install --no-cache-dir \
     apache-airflow-providers-postgres \
+    apache-airflow-providers-amazon \
     psycopg2-binary \
-    pandas
+    pandas \
+    dbt-core==1.7.1 \
+    dbt-trino==1.7.1
 
 # Copiar el script de inicialización
 USER root

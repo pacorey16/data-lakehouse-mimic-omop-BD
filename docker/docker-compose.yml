@@ -159,6 +159,7 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - airflow-logs:/opt/airflow/logs
       - ./data:/opt/airflow/data
+      - ../dbt_project:/opt/airflow/dbt_project
     entrypoint: /bin/bash
     command: /init-airflow.sh
     depends_on:
