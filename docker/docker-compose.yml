@@ -94,7 +94,7 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
-      sleep 5;
+      sleep 15;
       mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
       mc mb --ignore-existing local/landing-zone;
       mc mb --ignore-existing local/mimic-bronze;
@@ -159,6 +159,7 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - airflow-logs:/opt/airflow/logs
       - ./data:/opt/airflow/data
+      - ../dbt_project:/opt/airflow/dbt_project
     entrypoint: /bin/bash
     command: /init-airflow.sh
     depends_on:
