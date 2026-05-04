@@ -144,6 +144,52 @@ ENV/
 env.bak/
 venv.bak/
 
+# ====================================
+# Proyecto: Data Lakehouse MIMIC-OMOP
+# ====================================
+
+# Archivos CSV (datos)
+*.csv
+data/
+datos_simulados/vocabulario/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Configuración y credenciales
+.env
+.aws/
+credentials.json
+docker/.env
+docker/trino/conf/catalog/hive.properties
+docker/trino/conf/catalog/iceberg.properties
+docker/trino/conf/catalog/postgres.properties
+docker/trino/conf/core-site.xml
+
+# Datos generados
+docker/data/
+datos_simulados/lotes_landing/
+
+# Airflow
+airflow_dags/logs/
+
+# DBT
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+# Spark/Jupyter notebooks generados por usuario
+docker/notebooks/*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
 # Spyder project settings
 .spyderproject
 .spyproject

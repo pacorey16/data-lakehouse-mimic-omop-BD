@@ -1,4 +1,4 @@
-version: "3.8"
+﻿version: "3.8"
 
 networks:
   trabajobd_network:
@@ -85,7 +85,7 @@ services:
       - trabajobd_network
 
   # =======================================================
-  # MinIO Init — crea el bucket al arrancar
+  # MinIO Init â€” crea el bucket al arrancar
   # =======================================================
   minio-init:
     image: minio/mc:latest
@@ -166,5 +166,20 @@ services:
         condition: service_healthy
     ports:
       - "8083:8080"
+    networks:
+      - trabajobd_network
+  # =======================================================
+  # Spark
+  # =======================================================
+  spark:
+    image: jupyter/pyspark-notebook:latest
+    container_name: spark
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
     networks:
       - trabajobd_network
