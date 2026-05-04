@@ -34,5 +34,3 @@ models:
     +materialized: table
     +table_type: iceberg
     +format: parquet
-    example:
-      +materialized: view

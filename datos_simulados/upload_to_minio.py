@@ -4,8 +4,8 @@ from pathlib import Path
 # Configuración de conexión a MinIO local
 s3_client = boto3.client('s3',
     endpoint_url='http://localhost:9000',
-    aws_access_key_id='minioadmin',    
-    aws_secret_access_key='minioadmin' 
+    aws_access_key_id='minioadmin',
+    aws_secret_access_key='trabajobd_minio'
 )
 
 LANDING_BUCKET = 'landing-zone'

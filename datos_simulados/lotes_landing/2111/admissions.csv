@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10006053,22942076,2111-11-13 23:39:00,2111-11-15 17:20:00,2111-11-15 17:20:00,URGENT,P38TI6,TRANSFER FROM HOSPITAL,DIED,Medicaid,ENGLISH,,UNKNOWN,,,1
-10004422,21255400,2111-01-15 14:55:00,2111-01-25 15:00:00,,EW EMER.,P1037P,PROCEDURE SITE,HOME HEALTH CARE,Medicare,ENGLISH,WIDOWED,WHITE,,,0

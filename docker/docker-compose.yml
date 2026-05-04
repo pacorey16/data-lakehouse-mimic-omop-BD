@@ -53,6 +53,7 @@ services:
       - ./trino/conf:/etc/trino
       - ./trino/conf/catalog:/etc/trino/catalog
       - ./trino/conf/core-site.xml:/etc/hadoop/conf/core-site.xml
+      - ./trino/init_mimic_bronze.sql:/etc/trino/init_mimic_bronze.sql
       - ./trino/plugin/hive/hadoop-aws-3.3.4.jar:/usr/lib/trino/lib/hadoop-aws-3.3.4.jar
       - ./trino/plugin/hive/aws-java-sdk-bundle-1.12.262.jar:/usr/lib/trino/lib/aws-java-sdk-bundle-1.12.262.jar
     depends_on:
@@ -99,6 +100,7 @@ services:
       mc mb --ignore-existing local/landing-zone;
       mc mb --ignore-existing local/mimic-bronze;
       mc mb --ignore-existing local/omop-silver;
+      mc mb --ignore-existing local/mimic-vocabulary;
       exit 0;
       "
     environment:
@@ -158,7 +160,7 @@ services:
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - airflow-logs:/opt/airflow/logs
-      - ./data:/opt/airflow/data
+      - ../datos_simulados/lotes_landing:/opt/airflow/data/lotes_landing
       - ../dbt_project:/opt/airflow/dbt_project
     entrypoint: /bin/bash
     command: /init-airflow.sh

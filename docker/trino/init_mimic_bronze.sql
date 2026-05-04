@@ -1,9 +1,9 @@
 -- 1. Esquemas
-CREATE SCHEMA IF NOT EXISTS iceberg.omop_silver WITH (location = 's3a://omop-silver/');
+CREATE SCHEMA IF NOT EXISTS iceberg.omop_silver WITH (location = 's3://omop-silver/');
 CREATE SCHEMA IF NOT EXISTS hive.mimic_bronze
-WITH (location = 's3a://mimic-bronze/');
+WITH (location = 's3://mimic-bronze/');
 
--- 2. Tabla Admissions (Todo VARCHAR)
+-- 2. Tabla Admissions
 CREATE TABLE IF NOT EXISTS hive.mimic_bronze.admissions (
     subject_id VARCHAR,
     hadm_id VARCHAR,
@@ -11,50 +11,48 @@ CREATE TABLE IF NOT EXISTS hive.mimic_bronze.admissions (
     dischtime VARCHAR,
     deathtime VARCHAR,
     admission_type VARCHAR,
+    admit_provider_id VARCHAR,
     admission_location VARCHAR,
     discharge_location VARCHAR,
     insurance VARCHAR,
     language VARCHAR,
-    religion VARCHAR,
     marital_status VARCHAR,
-    ethnicity VARCHAR,
+    race VARCHAR,
     edregtime VARCHAR,
     edouttime VARCHAR,
-    diagnosis VARCHAR,
-    hospital_expire_flag VARCHAR,
-    has_chartevents_data VARCHAR
-) 
+    hospital_expire_flag VARCHAR
+)
 WITH (
     format = 'CSV',
-    external_location = 's3a://mimic-bronze/admissions/',
+    external_location = 's3://mimic-bronze/admissions/',
     skip_header_line_count = 1
 );
 
--- 3. Tabla Patients (Todo VARCHAR)
+-- 3. Tabla Patients
 CREATE TABLE IF NOT EXISTS hive.mimic_bronze.patients (
     subject_id VARCHAR,
     gender VARCHAR,
-    dob VARCHAR,
-    dod VARCHAR,
-    dod_hosp VARCHAR,
-    dod_ssn VARCHAR,
-    expire_flag VARCHAR
-) 
+    anchor_age VARCHAR,
+    anchor_year VARCHAR,
+    anchor_year_group VARCHAR,
+    dod VARCHAR
+)
 WITH (
     format = 'CSV',
-    external_location = 's3a://mimic-bronze/patients/',
+    external_location = 's3://mimic-bronze/patients/',
     skip_header_line_count = 1
 );
 
--- 4. Tabla Diagnoses (Todo VARCHAR)
+-- 4. Tabla Diagnoses ICD
 CREATE TABLE IF NOT EXISTS hive.mimic_bronze.diagnoses_icd (
     subject_id VARCHAR,
     hadm_id VARCHAR,
     seq_num VARCHAR,
-    icd9_code VARCHAR
-) 
+    icd_code VARCHAR,
+    icd_version VARCHAR
+)
 WITH (
     format = 'CSV',
-    external_location = 's3a://mimic-bronze/diagnoses_icd/',
+    external_location = 's3://mimic-bronze/diagnoses_icd/',
     skip_header_line_count = 1
 );

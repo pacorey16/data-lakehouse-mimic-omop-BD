@@ -13,7 +13,7 @@ sources:
   - name: mimic
     description: Tablas crudas de MIMIC-IV cargadas en Iceberg (schema mimic-bronze).
     database: hive
-    schema: bronze
+    schema: mimic_bronze
     tables:
       - name: patients
         description: Información demográfica de pacientes.

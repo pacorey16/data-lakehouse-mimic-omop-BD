@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10001725,25563031,2110-04-11 15:08:00,2110-04-14 15:00:00,,EW EMER.,P35SU0,PACU,HOME,Other,ENGLISH,MARRIED,WHITE,,,0
-10008454,20291550,2110-11-30 06:31:00,2110-12-10 15:53:00,,EW EMER.,P77BSD,EMERGENCY ROOM,HOME HEALTH CARE,Other,ENGLISH,SINGLE,WHITE,2110-11-30 04:45:00,2110-11-30 08:03:00,0

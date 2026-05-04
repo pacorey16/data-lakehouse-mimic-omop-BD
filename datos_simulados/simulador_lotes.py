@@ -11,6 +11,8 @@ import pandas as pd
 from pathlib import Path
 import sys
 
+sys.path.insert(0, str(Path(__file__).parent))
+
 DATA_DIR = Path(__file__).parent.parent / "data"
 OUTPUT_DIR = Path(__file__).parent / "lotes_landing"
 
@@ -83,8 +85,8 @@ def main() -> None:
     try:
         from upload_to_minio import upload_lotes_to_landing
         upload_lotes_to_landing(str(OUTPUT_DIR))
-    except ImportError:
-        print("No se pudo importar upload_to_minio. Asegurarnos de que está en el PYTHONPATH")
+    except ImportError as e:
+        print(f"Error de importación: {e}. Asegúrate de tener instalado boto3 (pip install boto3)")
         sys.exit(1)
     except Exception as e:
         print(f"Error al subir datos: {e}")
