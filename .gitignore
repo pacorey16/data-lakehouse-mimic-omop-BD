@@ -255,6 +255,7 @@ __marimo__/
 
 # JARs de Hadoop/AWS (demasiado grandes para GitHub, ver docker/README.md)
 docker/trino/plugin/**/*.jar
+docker/notebooks/jars/
 
 # Datos locales
 /datos_simulados/*.csv

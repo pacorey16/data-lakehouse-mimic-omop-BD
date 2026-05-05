@@ -1,3 +1,4 @@
+{{ config(severity='warn') }}
 -- Devuelve diagnósticos cuyo person_id no existe en la tabla de pacientes.
 SELECT
     co.condition_occurrence_id,

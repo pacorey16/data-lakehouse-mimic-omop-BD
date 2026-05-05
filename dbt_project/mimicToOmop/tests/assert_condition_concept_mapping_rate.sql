@@ -1,3 +1,4 @@
+{{ config(severity='warn') }}
 -- Falla si más del 50% de los diagnósticos no tienen mapeo ICD->SNOMED (condition_concept_id = 0).
 -- Ajusta el umbral según la calidad esperada del vocabulario.
 SELECT

@@ -3,7 +3,7 @@ version: 2
 sources:
 
   - name: vocabulary
-    database: iceberg
+    database: hive
     schema: vocabulary
     tables:
       - name: concept

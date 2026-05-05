@@ -34,6 +34,7 @@ models:
           - not_null
           - accepted_values:
               values: [32817]
+              quote: false
 
       - name: condition_source_value
         description: Código ICD original de MIMIC.

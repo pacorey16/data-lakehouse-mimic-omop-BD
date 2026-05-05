@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10013049,22675517,2114-06-20 10:15:00,2114-06-24 16:45:00,,ELECTIVE,P41R5N,PHYSICIAN REFERRAL,HOME HEALTH CARE,Other,ENGLISH,MARRIED,WHITE,,,0
-10017492,27672872,2114-03-19 20:05:00,2114-04-02 18:30:00,,EW EMER.,P68RKH,EMERGENCY ROOM,HOME HEALTH CARE,Other,?,SINGLE,PATIENT DECLINED TO ANSWER,2114-03-19 15:57:00,2114-03-19 21:38:00,0

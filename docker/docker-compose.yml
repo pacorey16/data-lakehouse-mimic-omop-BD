@@ -192,5 +192,6 @@ services:
       - ./notebooks:/home/jovyan/work
     environment:
       - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=''
     networks:
       - trabajobd_network

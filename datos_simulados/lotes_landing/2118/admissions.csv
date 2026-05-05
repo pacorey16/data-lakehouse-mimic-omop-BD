@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10019172,24997044,2118-11-15 14:00:00,2118-11-21 18:31:00,,ELECTIVE,P41R5N,PHYSICIAN REFERRAL,HOME HEALTH CARE,Other,ENGLISH,,UNABLE TO OBTAIN,,,0
-10019172,21540783,2118-10-08 14:00:00,2118-10-11 20:15:00,,ELECTIVE,P41R5N,PHYSICIAN REFERRAL,HOME,Other,ENGLISH,,UNABLE TO OBTAIN,,,0

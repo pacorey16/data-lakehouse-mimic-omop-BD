@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10035185,22580999,2120-05-12 12:53:00,2120-05-17 16:00:00,,URGENT,P41R5N,TRANSFER FROM HOSPITAL,HOME HEALTH CARE,Other,ENGLISH,MARRIED,WHITE,,,0
-10019568,28710730,2120-01-30 21:07:00,2120-02-02 15:40:00,,EW EMER.,P80LEI,EMERGENCY ROOM,HOME,Medicare,ENGLISH,SINGLE,WHITE,2120-01-30 19:44:00,2120-01-30 22:51:00,0

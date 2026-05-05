@@ -12,7 +12,7 @@ WITH diagnoses AS (
 admissions AS (
     SELECT * FROM {{ source('mimic', 'admissions') }}
     {% if is_incremental() %}
-    WHERE admittime > (SELECT MAX(condition_start_date) FROM {{ this }})
+    WHERE TRY_CAST(date_parse(admittime, '%Y-%m-%d %H:%i:%s') AS DATE) > (SELECT MAX(condition_start_date) FROM {{ this }})
     {% endif %}
 ),
 
@@ -32,15 +32,15 @@ standard_concepts AS (
 
 mapping AS (
     SELECT
-        {{ dbt_utils.generate_surrogate_key(['subject_id', 'hadm_id', 'seq_num']) }} AS condition_occurrence_id,
+        {{ dbt_utils.generate_surrogate_key(['d.subject_id', 'd.hadm_id', 'd.seq_num']) }} AS condition_occurrence_id,
         d.subject_id AS person_id,
         d.icd_code AS condition_source_value,
         d.hadm_id AS visit_occurrence_id,
-        CAST(a.admittime AS DATE) AS condition_start_date,
-        CAST(a.dischtime AS DATE) AS condition_end_date,
+        TRY_CAST(date_parse(a.admittime, '%Y-%m-%d %H:%i:%s') AS DATE) AS condition_start_date,
+        TRY_CAST(date_parse(a.dischtime, '%Y-%m-%d %H:%i:%s') AS DATE) AS condition_end_date,
         32817 AS condition_type_concept_id,
-        COALESCE(sc.standard_concept_id, 0) AS condition_concept_id,
-        COALESCE(c.concept_id, 0) AS condition_source_concept_id
+        COALESCE(TRY_CAST(sc.standard_concept_id AS INTEGER), 0) AS condition_concept_id,
+        COALESCE(TRY_CAST(c.concept_id AS INTEGER), 0) AS condition_source_concept_id
     FROM diagnoses d
     JOIN admissions a ON d.hadm_id = a.hadm_id
     LEFT JOIN concepts c ON d.icd_code = c.concept_code
