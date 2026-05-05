@@ -51,12 +51,13 @@ def subir_lote_a_bronze(**kwargs):
 
 # --- TAREA 2: Borrar lote local procesado ---
 def marcar_lote_procesado(**kwargs):
-    import shutil
+    import subprocess
     base_path = '/opt/airflow/data/lotes_landing'
     anio = kwargs['ti'].xcom_pull(key='anio', task_ids='subir_lote_bronze')
     ruta_lote = os.path.join(base_path, anio)
     if os.path.exists(ruta_lote):
-        shutil.rmtree(ruta_lote)
+        # shutil.rmtree falla en Docker con bind mounts de macOS (dir_fd issue)
+        subprocess.run(['rm', '-rf', ruta_lote], check=True)
 
 
 with DAG(

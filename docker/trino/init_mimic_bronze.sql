@@ -5,7 +5,7 @@ CREATE SCHEMA IF NOT EXISTS hive.vocabulary WITH (location = 's3://mimic-vocabul
 
 -- 2. Vocabulario OMOP
 CREATE TABLE IF NOT EXISTS hive.vocabulary.concept (
-    concept_id        INTEGER,
+    concept_id        VARCHAR,
     concept_name      VARCHAR,
     domain_id         VARCHAR,
     vocabulary_id     VARCHAR,
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS hive.vocabulary.concept (
 );
 
 CREATE TABLE IF NOT EXISTS hive.vocabulary.concept_relationship (
-    concept_id_1     INTEGER,
-    concept_id_2     INTEGER,
+    concept_id_1     VARCHAR,
+    concept_id_2     VARCHAR,
     relationship_id  VARCHAR,
     valid_start_date VARCHAR,
     valid_end_date   VARCHAR,
