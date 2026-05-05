@@ -50,3 +50,51 @@ models:
         description: Identificador del ingreso (hadm_id de MIMIC).
         tests:
           - not_null
+
+  - name: visit_occurrence
+    description: Tabla OMOP visit_occurrence generada desde MIMIC-IV admissions.
+    columns:
+      - name: visit_occurrence_id
+        description: Identificador único del ingreso (hadm_id de MIMIC).
+        tests:
+          - unique
+          - not_null
+
+      - name: person_id
+        description: Identificador del paciente (subject_id de MIMIC).
+        tests:
+          - not_null
+
+      - name: visit_concept_id
+        description: Tipo de visita OMOP (9201 hospitalización, 9203 urgencias).
+        tests:
+          - not_null
+          - accepted_values:
+              values: [9201, 9203]
+              quote: false
+
+      - name: visit_start_date
+        description: Fecha de ingreso (admittime).
+        tests:
+          - not_null
+
+      - name: visit_end_date
+        description: Fecha de alta (dischtime). Puede ser nula si el paciente sigue ingresado.
+
+      - name: visit_type_concept_id
+        description: Tipo de registro. Siempre 32817 (EHR).
+        tests:
+          - not_null
+          - accepted_values:
+              values: [32817]
+              quote: false
+
+      - name: visit_source_value
+        description: Valor original del tipo de admisión en MIMIC (admission_type).
+        tests:
+          - not_null
+
+      - name: visit_source_concept_id
+        description: Concepto fuente OMOP. 0 si no hay mapeo directo.
+        tests:
+          - not_null
