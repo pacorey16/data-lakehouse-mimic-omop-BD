@@ -180,8 +180,8 @@ dbt_project/target/
 dbt_project/dbt_packages/
 dbt_project/logs/
 
-# Spark/Jupyter notebooks generados por usuario
-docker/notebooks/*.ipynb
+# Spark/Jupyter notebooks - checkpoints ignorados, notebooks versionados
+docker/notebooks/.ipynb_checkpoints/
 
 # IDE
 .vscode/
