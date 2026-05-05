@@ -54,8 +54,6 @@ services:
       - ./trino/conf/catalog:/etc/trino/catalog
       - ./trino/conf/core-site.xml:/etc/hadoop/conf/core-site.xml
       - ./trino/init_mimic_bronze.sql:/etc/trino/init_mimic_bronze.sql
-      - ./trino/plugin/hive/hadoop-aws-3.3.4.jar:/usr/lib/trino/lib/hadoop-aws-3.3.4.jar
-      - ./trino/plugin/hive/aws-java-sdk-bundle-1.12.262.jar:/usr/lib/trino/lib/aws-java-sdk-bundle-1.12.262.jar
     depends_on:
       - postgres
       - hive-metastore
