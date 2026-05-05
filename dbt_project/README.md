@@ -1,3 +1,7 @@
 # dbt Project
 
-Directorio principal del proyecto **dbt**. Incluye los modelos SQL que implementan la transformación de la capa **Bronze** (datos crudos MIMIC) a la capa **Silver** (esquema estandarizado OMOP CDM), así como los tests de calidad de datos (`schema.yml`).
+Directorio principal del proyecto dbt. El proyecto activo es `mimicToOmop/`.
+
+Implementa la transformación de la capa **Bronze** (datos crudos de MIMIC-IV en MinIO) a la capa **Silver** (esquema estandarizado OMOP CDM en Iceberg).
+
+Ver documentación detallada en [mimicToOmop/README.md](mimicToOmop/README.md).

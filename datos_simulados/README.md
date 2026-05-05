@@ -1,43 +1,87 @@
 # Datos Simulados
 
-Contiene el script `simulador_lotes.py`, que trocea los CSV originales de MIMIC en fragmentos diarios, simulando la llegada incremental de datos clínicos para probar la ingesta del pipeline.
+Scripts que preparan los datos de entrada del pipeline: trocea los CSV originales de MIMIC-IV en lotes anuales y los sube a MinIO.
 
-## Archivos excluidos del repositorio
+## Estructura
 
-Los datos generados **no se versionan** (están en `.gitignore`):
+```
+datos_simulados/
+├── simulador_lotes.py      # Trocea MIMIC en lotes anuales y los sube a landing-zone
+├── upload_vocabulario.py   # Sube el vocabulario OMOP a mimic-vocabulary
+├── upload_to_minio.py      # Módulo auxiliar de subida a MinIO (usado por simulador)
+└── lotes_landing/          # Lotes generados (no versionado)
+    ├── 2110/
+    │   ├── admissions.csv
+    │   ├── patients.csv
+    │   └── diagnoses_icd.csv
+    └── ...
+```
 
-- `lotes_landing/` — lotes CSV generados por `simulador_lotes.py`
-- `*.csv` / `*.parquet` — datos originales de MIMIC
+## Requisitos previos
 
-## Generar los lotes y subir a MinIO
+Los CSV de MIMIC-IV deben estar en `data/` (raíz del proyecto):
 
-### 1. Datos clínicos (MIMIC)
+```
+data/
+├── admissions.csv
+├── patients.csv
+└── diagnoses_icd.csv
+```
 
-El script `simulador_lotes.py` genera los lotes y los **sube automáticamente** al bucket `landing-zone` de MinIO:
+Los scripts leen las credenciales de MinIO desde la variable de entorno `MINIO_ROOT_PASSWORD` (y `MINIO_ROOT_USER`). El Makefile los exporta automáticamente desde `docker/.env`.
+
+## 1. Generar y subir los lotes anuales
 
 ```bash
-# Desde la raíz del proyecto
-python datos_simulados/simulador_lotes.py
+# Desde la raíz del proyecto (recomendado)
+make simulate
+
+# O manualmente exportando las credenciales
+export $(grep -v '^#' docker/.env | xargs)
+python3 datos_simulados/simulador_lotes.py
 ```
 
-Esto crea los archivos en `datos_simulados/lotes_landing/` y los carga en `s3://landing-zone/`.
+**Qué hace `simulador_lotes.py`:**
+- Lee `data/admissions.csv`, `data/patients.csv`, `data/diagnoses_icd.csv`
+- Particiona por año de ingreso (`admittime`)
+- Guarda cada lote en `datos_simulados/lotes_landing/YYYY/`
+- Sube todos los lotes al bucket `landing-zone` de MinIO
 
-> Requiere que el contenedor MinIO esté levantado (`docker compose up -d minio`).
+Cada ejecución del DAG de Airflow consumirá uno de estos lotes.
 
-### 2. Vocabulario OMOP
+## 2. Subir el vocabulario OMOP
 
-Los archivos de vocabulario (tablas `concept`, `concept_relationship`, etc.) se suben al bucket `mimic-vocabulary` con:
+El vocabulario OMOP es necesario para mapear códigos ICD a conceptos estándar SNOMED. Sin él, los diagnósticos se almacenan con `condition_concept_id = 0` (sin mapeo).
+
+### Descargar el vocabulario
+
+1. Accede a [Athena OHDSI](https://athena.ohdsi.org)
+2. Selecciona los vocabularios **ICD9CM** e **ICD10CM** (mínimo)
+3. Descarga y descomprime en `data/Concept/`:
+
+```
+data/Concept/
+├── CONCEPT.csv
+└── CONCEPT_RELATIONSHIP.csv
+```
+
+### Subir a MinIO
 
 ```bash
-python datos_simulados/upload_vocabulario.py
+# Desde la raíz del proyecto (recomendado)
+make upload-vocab
+
+# O manualmente
+export $(grep -v '^#' docker/.env | xargs)
+python3 datos_simulados/upload_vocabulario.py
 ```
 
-Descarga los ficheros CSV del vocabulario desde la fuente oficial (ATHENA/OHDSI) y colócalos en `datos_simulados/vocabulario/` antes de ejecutar este script.
+Los ficheros se suben a:
+- `s3://mimic-vocabulary/concept/CONCEPT.csv`
+- `s3://mimic-vocabulary/concept_relationship/CONCEPT_RELATIONSHIP.csv`
 
-### 3. Ejecutar el pipeline completo
+## Notas sobre los datos generados
 
-Una vez subidos los datos, activa el DAG en Airflow (`http://localhost:8083`) para ejecutar la transformación completa:
-
-```
-upload_to_minio → dbt run → dbt test
-```
+- `lotes_landing/` no se versiona (`.gitignore`)
+- Algunos años pueden no tener lote de `patients.csv` si ese año no hay primera admisión de ningún paciente nuevo — es comportamiento normal del simulador
+- El DAG procesa **un lote por ejecución** en orden cronológico

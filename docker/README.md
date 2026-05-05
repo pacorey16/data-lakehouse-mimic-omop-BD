@@ -1,76 +1,105 @@
-# Docker
+# Docker — Infraestructura
 
-Contiene el archivo maestro `docker-compose.yml` y las configuraciones necesarias para levantar toda la infraestructura del Data Lakehouse: **MinIO** (object storage), **Trino** (query engine), **Hive Metastore** y **PostgreSQL**.
+Contiene el `docker-compose.yml` y todas las configuraciones necesarias para levantar el stack completo del Data Lakehouse.
 
-## Requisitos previos — Descargar los plugins de Trino
+## Servicios
 
-Los JARs de Hadoop/AWS superan el límite de 100 MB de GitHub y **no están en el repositorio**. Antes de levantar el stack hay que descargarlos manualmente:
+| Contenedor | Imagen | Puerto | Función |
+|---|---|---|---|
+| `postgres` | postgres:13 | 5435 | Backend de Airflow y Hive Metastore |
+| `minio` | minio/minio | 9000 / 9001 | Almacenamiento S3 compatible |
+| `minio-init` | minio/mc | — | Crea los buckets al arrancar |
+| `hive-metastore` | apache/hive:3.1.3 | 9083 | Catálogo de metadatos Iceberg/Hive |
+| `trino` | trinodb/trino | 8082 | Motor SQL distribuido |
+| `airflow` | (Dockerfile.airflow) | 8083 | Orquestación del pipeline |
+| `spark` | jupyter/pyspark-notebook | 8888 | Análisis exploratorio |
+
+## Buckets MinIO (creados automáticamente)
+
+| Bucket | Contenido |
+|---|---|
+| `landing-zone` | Lotes CSV anuales antes de procesar |
+| `mimic-bronze` | Datos MIMIC crudos (CSV, tablas Hive externas) |
+| `omop-silver` | Tablas OMOP transformadas (Parquet, Iceberg) |
+| `mimic-vocabulary` | Vocabulario OMOP (CONCEPT, CONCEPT_RELATIONSHIP) |
+
+## Configuración de credenciales
+
+Los ficheros de configuración de Trino contienen credenciales y **no se versionan** (están en `.gitignore`). Se generan a partir de templates con el comando:
 
 ```bash
-mkdir -p docker/trino/plugin/hive
-
-# hadoop-aws (conector S3A para MinIO)
-curl -L -o docker/trino/plugin/hive/hadoop-aws-3.3.4.jar \
-  https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar
-
-# aws-java-sdk-bundle (dependencia de hadoop-aws)
-curl -L -o docker/trino/plugin/hive/aws-java-sdk-bundle-1.12.262.jar \
-  https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar
+# Desde la raíz del proyecto
+make generate-config
 ```
 
-> Estos archivos están en `.gitignore` — no los subas al repo.
+Esto lee `docker/.env` y genera:
+- `docker/trino/conf/catalog/iceberg.properties`
+- `docker/trino/conf/catalog/hive.properties`
+- `docker/trino/conf/core-site.xml`
 
-## Requisitos previos — JARs de Spark/Iceberg para el notebook
-
-Los JARs del notebook de Spark/Iceberg también superan el límite de GitHub y **no están en el repositorio**. Hay que descargarlos en `docker/notebooks/jars/` antes de abrir el notebook:
+### Crear docker/.env
 
 ```bash
-mkdir -p docker/notebooks/jars
-
-# Iceberg runtime para Spark 3.5
-curl -L -o docker/notebooks/jars/iceberg-spark-runtime-3.5_2.12-1.6.1.jar \
-  https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.6.1/iceberg-spark-runtime-3.5_2.12-1.6.1.jar
-
-# Hadoop AWS (conector S3A para MinIO)
-curl -L -o docker/notebooks/jars/hadoop-aws-3.3.4.jar \
-  https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar
-
-# AWS Java SDK bundle (dependencia de hadoop-aws)
-curl -L -o docker/notebooks/jars/aws-java-sdk-bundle-1.12.262.jar \
-  https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar
+make env        # copia docker/.env.example → docker/.env
+vi docker/.env  # editar con tus credenciales
 ```
 
-> Estos archivos están en `.gitignore` — no los subas al repo. El notebook los referencia desde `/home/jovyan/work/jars/` dentro del contenedor.
-
-## Variables de entorno
-
-Crea el archivo `docker/.env` (no se versiona) con:
+Contenido mínimo de `docker/.env`:
 
 ```env
-POSTGRES_USER=demo
-POSTGRES_PASSWORD=demo123
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=tu_password
 MINIO_ROOT_USER=minioadmin
-MINIO_ROOT_PASSWORD=minioadmin
+MINIO_ROOT_PASSWORD=tu_password
+AIRFLOW_FERNET_KEY=<genera con: python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())">
 ```
 
 ## Levantar el stack
 
 ```bash
-cd docker
-docker compose up -d
+# Desde la raíz del proyecto (recomendado — usa el Makefile)
+make up
+
+# O directamente con docker compose
+cd docker && docker compose up -d
 ```
 
-| Servicio        | URL                        |
-|-----------------|----------------------------|
-| Trino UI        | http://localhost:8082       |
-| MinIO consola   | http://localhost:9001       |
-| PostgreSQL      | localhost:5435              |
-| Hive Metastore  | thrift://localhost:9083     |
-| Airflow         | http://localhost:8083       |
-| Jupyter/Spark   | http://localhost:8888       |
-
-## Resetear todo (borra datos)
+## Comandos útiles
 
 ```bash
-docker compose down -v
+make logs           # ver logs en tiempo real
+make down           # parar todos los servicios
+make reset          # parar y eliminar todos los volúmenes (reset total)
+```
+
+## Registrar tablas en Hive Metastore
+
+Tras el primer arranque, hay que registrar los esquemas y tablas. El fichero `trino/init_mimic_bronze.sql` está montado en el contenedor y se ejecuta con:
+
+```bash
+make init-tables
+# equivalente a:
+docker exec trino trino --file /etc/trino/init_mimic_bronze.sql
+```
+
+Esto crea:
+- `hive.mimic_bronze` — tablas MIMIC (admissions, patients, diagnoses_icd)
+- `hive.vocabulary` — tablas de vocabulario OMOP (concept, concept_relationship)
+- `iceberg.omop` — esquema de destino OMOP en omop-silver
+
+## JARs de Spark/Iceberg (notebook)
+
+Los JARs del notebook de Spark/Iceberg superan el límite de GitHub. Descargar antes de abrir el notebook:
+
+```bash
+mkdir -p docker/notebooks/jars
+
+curl -L -o docker/notebooks/jars/iceberg-spark-runtime-3.5_2.12-1.6.1.jar \
+  https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-3.5_2.12/1.6.1/iceberg-spark-runtime-3.5_2.12-1.6.1.jar
+
+curl -L -o docker/notebooks/jars/hadoop-aws-3.3.4.jar \
+  https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar
+
+curl -L -o docker/notebooks/jars/aws-java-sdk-bundle-1.12.262.jar \
+  https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar
 ```
