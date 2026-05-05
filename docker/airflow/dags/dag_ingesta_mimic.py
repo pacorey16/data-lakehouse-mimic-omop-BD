@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.exceptions import AirflowSkipException
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
@@ -16,9 +17,15 @@ def subir_lote_a_bronze(**kwargs):
 
     lotes = sorted(os.listdir(base_path))
     if not lotes:
-        raise ValueError("No hay lotes disponibles en lotes_landing")
+        raise AirflowSkipException("No quedan lotes en lotes_landing — pipeline completado.")
 
     anio = lotes[0]
+
+    # Evitar reprocesar un lote ya subido
+    existing = s3.list_keys(bucket_name=BRONZE_BUCKET, prefix=f'admissions/{anio}_')
+    if existing:
+        raise AirflowSkipException(f"El lote {anio} ya existe en {BRONZE_BUCKET} — se omite.")
+
     ruta_lote = os.path.join(base_path, anio)
 
     for archivo in os.listdir(ruta_lote):

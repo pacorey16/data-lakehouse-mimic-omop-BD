@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: condition_ocurrence
+  - name: condition_occurrence
     description: Tabla OMOP condition_occurrence generada desde MIMIC-IV diagnoses_icd.
     columns:
       - name: condition_occurrence_id

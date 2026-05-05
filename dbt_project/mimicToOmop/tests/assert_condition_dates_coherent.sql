@@ -4,6 +4,6 @@ SELECT
     person_id,
     condition_start_date,
     condition_end_date
-FROM {{ ref('condition_ocurrence') }}
+FROM {{ ref('condition_occurrence') }}
 WHERE condition_end_date IS NOT NULL
   AND condition_end_date < condition_start_date

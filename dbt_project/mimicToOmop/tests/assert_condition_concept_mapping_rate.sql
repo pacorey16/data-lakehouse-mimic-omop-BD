@@ -5,5 +5,5 @@ SELECT
     COUNT(*) AS total,
     SUM(CASE WHEN condition_concept_id = 0 THEN 1 ELSE 0 END) AS sin_mapeo,
     CAST(SUM(CASE WHEN condition_concept_id = 0 THEN 1 ELSE 0 END) AS DOUBLE) / COUNT(*) AS ratio_sin_mapeo
-FROM {{ ref('condition_ocurrence') }}
+FROM {{ ref('condition_occurrence') }}
 HAVING CAST(SUM(CASE WHEN condition_concept_id = 0 THEN 1 ELSE 0 END) AS DOUBLE) / COUNT(*) > 0.5

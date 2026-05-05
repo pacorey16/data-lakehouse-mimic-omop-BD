@@ -1,11 +1,11 @@
 {{
   config(
     materialized = 'incremental',
-    incremental_strategy = 'append',
-    unique_key = 'condition_occurrence_id'  
+    incremental_strategy = 'merge',
+    unique_key = 'condition_occurrence_id'
     )
 }}
-    
+
 WITH diagnoses AS (
     SELECT * FROM {{ source('mimic', 'diagnoses_icd') }}
 ),
@@ -47,6 +47,3 @@ mapping AS (
     LEFT JOIN standard_concepts sc ON c.concept_id = sc.source_concept_id
 )
 SELECT * FROM mapping
-
-
-

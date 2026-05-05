@@ -1,4 +1,4 @@
-.PHONY: help env generate-config up down reset logs wait init-tables upload-vocab simulate setup
+.PHONY: help env generate-config up down reset logs wait init-tables upload-vocab simulate setup setup-infra load-data
 
 DOCKER_DIR := docker
 DATOS_DIR  := datos_simulados
@@ -14,6 +14,8 @@ help:
 	@echo "    make env             Crea docker/.env a partir de docker/.env.example"
 	@echo "    make generate-config Genera configs de Trino con las credenciales de docker/.env"
 	@echo "    make setup           Todo en uno: generate-config + up + wait + init + vocab + lotes"
+	@echo "    make setup-infra     Solo infraestructura: generate-config + up + wait + init-tables (repetible)"
+	@echo "    make load-data       Solo datos: upload-vocab + simulate (solo primera vez)"
 	@echo ""
 	@echo "  Infraestructura:"
 	@echo "    make up              Arranca todos los servicios Docker"
@@ -120,9 +122,17 @@ simulate:
 		python3 $(DATOS_DIR)/simulador_lotes.py
 
 # ─────────────────────────────────────────────
+# Setup dividido por idempotencia
+# ─────────────────────────────────────────────
+setup-infra: generate-config up wait init-tables
+	@echo "Infraestructura lista. Ejecuta 'make load-data' para cargar los datos."
+
+load-data: upload-vocab simulate
+	@echo "Datos cargados. Dispara el DAG en http://localhost:8083"
+
 # Setup completo (una sola vez tras clonar el repo)
 # ─────────────────────────────────────────────
-setup: generate-config up wait init-tables upload-vocab simulate
+setup: setup-infra load-data
 	@echo ""
 	@echo "Setup completo."
 	@echo ""
