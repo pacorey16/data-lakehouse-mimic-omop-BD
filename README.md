@@ -8,9 +8,10 @@ Pipeline de datos clínicos que ingiere registros hospitalarios del dataset **MI
 
 ```
   CSV MIMIC-IV          MinIO                  Trino + dbt           MinIO
-(admissions, patients  landing-zone  →  mimic-bronze  →  OMOP CDM  →  omop-silver
-  diagnoses_icd)       (lotes anuales)   (Hive / CSV)    (person,      (Iceberg /
-                                                          condition)    Parquet)
+(admissions, patients  landing-zone  →  mimic-bronze  →  OMOP CDM  →  omop-silver  →  Spark / Jupyter
+  diagnoses_icd)       (lotes anuales)   (Hive / CSV)    (person,      (Iceberg /       (capa Gold)
+                                                          condition,    Parquet)
+                                                          visit_occ.)
 
 Orquestación: Airflow DAG · Catálogo: Hive Metastore · Backend: PostgreSQL
 ```
@@ -84,6 +85,33 @@ make help
 
 ---
 
+## Modelos dbt (OMOP CDM)
+
+| Modelo | Tabla OMOP | Fuente MIMIC | Descripción |
+|---|---|---|---|
+| `person.sql` | `omop.person` | `patients` | Demografía del paciente — género y año de nacimiento |
+| `condition_occurrence.sql` | `omop.condition_occurrence` | `diagnoses_icd` + `admissions` | Diagnósticos ICD mapeados a conceptos OMOP |
+| `visit_occurrence.sql` | `omop.visit_occurrence` | `admissions` | Ingresos hospitalarios con tipo de visita y fechas |
+
+Todos los modelos usan materialización incremental con estrategia `merge`, garantizando que cada lote anual se procesa sin duplicados.
+
+---
+
+## Analítica con Spark (capa Gold)
+
+El notebook `docker/notebooks/MIMIC-OMOP_Analytics.ipynb` conecta PySpark a las tablas Iceberg de `omop-silver` y ejecuta consultas analíticas sobre los datos clínicos estandarizados.
+
+**Arrancar el entorno:**
+
+Abre http://localhost:8888 y ejecuta el notebook en orden.
+
+**Consultas implementadas:**
+
+1. **Top 10 diagnósticos por género** — join `person` + `condition_occurrence`, ranking por código ICD usando window functions.
+2. **Comorbilidades más frecuentes** — self-join de `condition_occurrence` sobre `visit_occurrence_id` para identificar pares de diagnósticos que co-ocurren en la misma visita.
+
+---
+
 ## Estructura del repositorio
 
 ```
@@ -101,6 +129,13 @@ make help
 │   └── trino/conf/             # Config de Trino (generada con make generate-config)
 ├── datos_simulados/            # Scripts de generación y subida de lotes
 ├── dbt_project/mimicToOmop/    # Modelos dbt (transformación MIMIC → OMOP)
+│   └── models/
+│       ├── person.sql
+│       ├── condition_occurrence.sql
+│       └── visit_occurrence.sql
+├── docker/
+│   └── notebooks/
+│       └── MIMIC-OMOP_Analytics.ipynb  # Analítica PySpark sobre capa Gold
 ├── airflow_dags/               # Definición del DAG de Airflow
 ├── scripts/                    # Scripts de utilidad
 │   └── generate_config.py      # Genera configs de Trino desde docker/.env
