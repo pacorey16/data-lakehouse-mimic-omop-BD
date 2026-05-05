@@ -55,9 +55,12 @@ services:
       - ./trino/conf/core-site.xml:/etc/hadoop/conf/core-site.xml
       - ./trino/init_mimic_bronze.sql:/etc/trino/init_mimic_bronze.sql
     depends_on:
-      - postgres
-      - hive-metastore
-      - minio-init
+      postgres:
+        condition: service_healthy
+      hive-metastore:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     ports:
       - "8082:8080"
     networks:
@@ -134,6 +137,12 @@ services:
       - ./trino/conf/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
     ports:
       - "9083:9083"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/9083"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 90s
     depends_on:
       - postgres
       - minio
@@ -155,6 +164,7 @@ services:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/airflow_db
       - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW_FERNET_KEY}
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW_CONN_MINIO_CONN=aws://minioadmin:minioadmin@?endpoint_url=http%3A%2F%2Fminio%3A9000
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - airflow-logs:/opt/airflow/logs
