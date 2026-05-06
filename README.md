@@ -49,6 +49,11 @@ Orquestación: Airflow DAG · Catálogo: Hive Metastore · Backend: PostgreSQL
 - CSV de MIMIC-IV (`admissions.csv`, `patients.csv`, `diagnoses_icd.csv`) en `data/`
 - CSV de vocabulario OMOP (`CONCEPT.csv`, `CONCEPT_RELATIONSHIP.csv`) en `data/Concept/`
   → Descarga en [Athena OHDSI](https://athena.ohdsi.org) (selecciona vocabularios ICD9CM e ICD10CM)
+- **Windows**: requiere WSL2 para ejecutar `make`. Instálalo con PowerShell (como administrador):
+  ```powershell
+  wsl --install
+  ```
+  Una vez instalado, ejecuta todos los comandos desde la terminal de WSL2.
 
 ### Instalación en un solo comando
 
