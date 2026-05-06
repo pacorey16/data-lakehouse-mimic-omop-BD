@@ -81,7 +81,7 @@ with DAG(
 
     t3 = BashOperator(
         task_id='dbt_run',
-        bash_command='cd /opt/airflow/dbt_project/mimicToOmop && /home/airflow/.local/bin/dbt deps && /home/airflow/.local/bin/dbt run --profiles-dir .'
+        bash_command='cd /opt/airflow/dbt_project/mimicToOmop && rm -rf dbt_packages && /home/airflow/.local/bin/dbt deps && /home/airflow/.local/bin/dbt run --profiles-dir .'
     )
 
     t4 = BashOperator(

@@ -195,5 +195,6 @@ services:
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - JUPYTER_TOKEN=''
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.password=''
     networks:
       - trabajobd_network
