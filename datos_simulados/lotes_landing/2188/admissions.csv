@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10015860,20854119,2188-08-06 00:49:00,2188-08-12 17:49:00,,EW EMER.,P29CGZ,EMERGENCY ROOM,HOME HEALTH CARE,Other,ENGLISH,SINGLE,WHITE,2188-08-05 20:36:00,2188-08-06 03:24:00,0
-10015860,28613200,2188-03-29 14:14:00,2188-04-02 16:30:00,,DIRECT EMER.,P62A9I,CLINIC REFERRAL,HOME HEALTH CARE,Other,ENGLISH,SINGLE,WHITE,,,0

@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10023117,28872262,2171-11-07 21:37:00,2171-11-22 15:30:00,,EW EMER.,P89ZCW,EMERGENCY ROOM,HOME HEALTH CARE,Medicare,ENGLISH,WIDOWED,WHITE,2171-11-07 17:40:00,2171-11-07 22:50:00,0

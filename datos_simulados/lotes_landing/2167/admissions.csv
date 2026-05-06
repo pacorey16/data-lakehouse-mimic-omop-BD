@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10007058,22954658,2167-11-07 19:05:00,2167-11-11 14:23:00,,EW EMER.,P76K54,EMERGENCY ROOM,HOME,Other,ENGLISH,MARRIED,WHITE,2167-11-07 17:57:00,2167-11-07 20:22:00,0
-10018423,29366372,2167-05-03 21:24:00,2167-05-11 12:57:00,,EW EMER.,P204LI,EMERGENCY ROOM,HOME HEALTH CARE,Other,ENGLISH,MARRIED,WHITE,2167-05-03 15:18:00,2167-05-03 22:50:00,0

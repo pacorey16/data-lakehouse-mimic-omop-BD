@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10015860,25085565,2186-09-15 16:12:00,2186-09-29 18:05:00,,EW EMER.,P56SP9,EMERGENCY ROOM,REHAB,Other,ENGLISH,SINGLE,WHITE,2186-09-15 12:56:00,2186-09-15 17:15:00,0
-10004720,22081550,2186-11-12 18:01:00,2186-11-17 18:30:00,2186-11-17 18:30:00,EW EMER.,P3529J,INFORMATION NOT AVAILABLE,DIED,Medicare,ENGLISH,SINGLE,WHITE,2186-11-12 16:09:00,2186-11-12 19:55:00,1

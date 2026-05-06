@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10018845,21101111,2184-10-08 02:28:00,2184-10-11 17:00:00,,EW EMER.,P34SFE,EMERGENCY ROOM,REHAB,Other,ENGLISH,MARRIED,WHITE,2184-10-07 22:35:00,2184-10-08 04:09:00,0

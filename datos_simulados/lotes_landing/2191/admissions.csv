@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10015860,22413744,2191-01-15 01:55:00,2191-01-30 17:09:00,,OBSERVATION ADMIT,P172D4,EMERGENCY ROOM,SKILLED NURSING FACILITY,Other,ENGLISH,SINGLE,WHITE,2191-01-14 21:18:00,2191-01-15 03:20:00,0

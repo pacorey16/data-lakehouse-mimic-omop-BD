@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10015860,22607171,2190-05-15 08:16:00,2190-05-16 15:44:00,,EU OBSERVATION,P73Y1N,EMERGENCY ROOM,,Other,ENGLISH,SINGLE,WHITE,2190-05-14 17:11:00,2190-05-15 10:00:00,0

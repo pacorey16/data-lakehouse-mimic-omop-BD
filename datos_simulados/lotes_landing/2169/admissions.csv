@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10020187,24104168,2169-01-15 04:04:00,2169-01-24 17:20:00,,OBSERVATION ADMIT,P898NM,EMERGENCY ROOM,HOME HEALTH CARE,Other,?,MARRIED,HISPANIC/LATINO - SALVADORAN,2169-01-14 23:26:00,2169-01-15 04:56:00,0

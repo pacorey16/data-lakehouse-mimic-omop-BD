@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10037928,29802992,2179-07-25 00:06:00,2179-07-28 15:54:00,,EW EMER.,P450WM,EMERGENCY ROOM,HOME HEALTH CARE,Medicare,?,WIDOWED,HISPANIC/LATINO - CUBAN,2179-07-24 18:21:00,2179-07-25 01:17:00,0
-10037928,23721604,2179-03-27 18:27:00,2179-04-04 19:40:00,,EW EMER.,P80GYA,EMERGENCY ROOM,HOME HEALTH CARE,Medicare,?,WIDOWED,HISPANIC/LATINO - CUBAN,2179-03-27 14:15:00,2179-03-27 19:48:00,0

@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10014078,25809882,2166-08-21 23:09:00,2166-08-26 14:48:00,,EW EMER.,P64JK6,EMERGENCY ROOM,HOME HEALTH CARE,Medicaid,ENGLISH,,UNABLE TO OBTAIN,2166-08-21 21:39:00,2166-08-22 00:36:00,0

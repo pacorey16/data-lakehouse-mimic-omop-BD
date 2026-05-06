@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10020187,26842957,2170-02-24 00:00:00,2170-02-25 15:00:00,,SURGICAL SAME DAY ADMISSION,P898NM,PHYSICIAN REFERRAL,HOME,Other,?,MARRIED,HISPANIC/LATINO - SALVADORAN,,,0
-10023117,29839885,2170-10-08 07:15:00,2170-10-09 16:30:00,,SURGICAL SAME DAY ADMISSION,P89ZCW,PHYSICIAN REFERRAL,HOME HEALTH CARE,Medicare,ENGLISH,WIDOWED,WHITE,,,0

@@ -1,2 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10039708,20572787,2138-10-30 23:30:00,2138-11-06 23:30:00,,EW EMER.,P39SWK,EMERGENCY ROOM,AGAINST ADVICE,Other,ENGLISH,SINGLE,BLACK/AFRICAN AMERICAN,2138-10-30 17:27:00,2138-10-31 00:19:00,0

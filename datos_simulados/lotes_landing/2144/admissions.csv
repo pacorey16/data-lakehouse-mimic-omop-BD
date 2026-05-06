@@ -1,3 +1,0 @@
-subject_id,hadm_id,admittime,dischtime,deathtime,admission_type,admit_provider_id,admission_location,discharge_location,insurance,language,marital_status,race,edregtime,edouttime,hospital_expire_flag
-10005909,20199380,2144-10-28 23:20:00,2144-11-02 15:23:00,,OBSERVATION ADMIT,P43BTJ,EMERGENCY ROOM,HOME,Other,ENGLISH,MARRIED,WHITE,2144-10-28 18:29:00,2144-10-29 00:10:00,0
-10039708,29488258,2144-01-19 12:07:00,2144-01-21 21:20:00,,OBSERVATION ADMIT,P8785Z,WALK-IN/SELF REFERRAL,HOME,Other,ENGLISH,SINGLE,BLACK/AFRICAN AMERICAN,2144-01-18 11:53:00,2144-01-19 13:59:00,0
